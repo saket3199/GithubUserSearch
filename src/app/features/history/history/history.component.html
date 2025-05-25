@@ -1,0 +1,37 @@
+<div class="container mt-4">
+  <h2>Search History</h2>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Username</th>
+        <th>Status</th>
+        <th>Timestamp</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let entry of history$ | async">
+        <td>
+          <ng-container *ngIf="entry.success; else failedUser">
+            <a [routerLink]="['/profile', entry.username]">{{ entry.username }}</a>
+          </ng-container>
+          <ng-template #failedUser>
+            {{ entry.username }} (Failed)
+          </ng-template>
+        </td>
+        <td>
+          <span [class]="entry.success ? 'text-success' : 'text-danger'">
+            {{ entry.success ? 'Success' : 'Failed' }}
+          </span>
+        </td>
+        <td>{{ entry.timestamp | date:'short' }}</td>
+        <td>
+          <button (click)="clearEntry(entry.username)" class="btn btn-sm btn-outline-danger">
+            Clear
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

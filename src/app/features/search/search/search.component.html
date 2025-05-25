@@ -1,0 +1,19 @@
+<div class="container mt-4">
+  <h2>Search GitHub Users</h2>
+  
+  <form class="d-flex mb-3" (submit)="onSearch(); $event.preventDefault()">
+    <input [(ngModel)]="username" name="username" class="form-control me-2" placeholder="Enter GitHub username" required />
+    <button type="submit" class="btn btn-primary">Search</button>
+  </form>
+
+  <div *ngIf="loading$ | async" class="alert alert-info">Loading...</div>
+  <div *ngIf="error$ | async as error" class="alert alert-danger">{{ error }}</div>
+
+  <div *ngIf="user$ | async as user" class="card mt-3">
+    <div class="card-body">
+      <img [src]="user.avatar_url" alt="Avatar" class="rounded-circle me-2" width="50">
+      <a [routerLink]="['/profile', user.login]" class="h5">{{ user.login }}</a>
+      <p>{{ user.bio }}</p>
+    </div>
+  </div>
+</div>
